@@ -1,0 +1,36 @@
+<header class="cabecalho">
+  <div>
+    <h1 class="titulo-pagina">Dashboard</h1>
+    <p class="subtitulo">Bem-vindo de volta! Aqui está o resumo da sua biblioteca hoje.</p>
+  </div>
+</header>
+
+<section class="stats">
+  <article class="card stat" *ngFor="let c of cards">
+    <div class="stat-topo">
+      <span>{{ c.titulo }}</span>
+      <svg class="stat-icone" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <rect x="2" y="4" width="4" height="16" rx="1" /><rect x="8" y="4" width="4" height="16" rx="1" />
+        <rect x="14.2" y="5" width="4" height="15" rx="1" transform="rotate(-12 16 12)" />
+      </svg>
+    </div>
+    <strong class="stat-valor">{{ c.valor | number }}</strong>
+  </article>
+</section>
+
+<section class="card painel">
+  <h2 class="painel-titulo">Últimos empréstimos:</h2>
+
+  <div class="linha-cartoes cabecalho-tabela">
+    <span>Livro</span><span>Utilizador</span><span>Data de empréstimo</span><span>Status</span>
+  </div>
+
+  <div class="linha-cartoes" *ngFor="let e of ultimos">
+    <div class="celula-verde">{{ e.livroTitulo }}</div>
+    <div class="celula-verde">{{ e.usuarioNome }}</div>
+    <div class="celula-verde">{{ e.dataEmprestimo | date: 'dd/MM/yyyy' }}</div>
+    <div class="celula-verde">{{ e.status | titlecase }}</div>
+  </div>
+
+  <p class="vazio" *ngIf="ultimos.length === 0">Nenhum empréstimo registrado.</p>
+</section>
