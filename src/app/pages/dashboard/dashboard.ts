@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { Emprestimo } from '../../models/emprestimo.model';
 import { AuthService } from '../../services/auth.service';
 import { EmprestimoService } from '../../services/emprestimo.service';
@@ -10,31 +11,41 @@ import { LivroService } from '../../services/livro.service';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard {
-  totalLivros = 0;
-  emprestados = 0;
-  pendentes = 0;
-  usuariosAtivos = 0;
+export class Dashboard implements OnInit {
+  private livroService = inject(LivroService);
+  private emprestimoService = inject(EmprestimoService);
+  private auth = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
+
+  cards: { titulo: string; valor: number }[] = [];
   ultimos: Emprestimo[] = [];
+  carregando = true;
+  erroApi = false;
 
-  constructor(
-    private livroService: LivroService,
-    private emprestimoService: EmprestimoService,
-    private auth: AuthService
-  ) {
-    this.totalLivros = this.livroService.totalExemplares();
-    this.emprestados = this.emprestimoService.emprestados();
-    this.pendentes = this.emprestimoService.devolucoesPendentes();
-    this.usuariosAtivos = this.auth.totalUsuarios();
-    this.ultimos = this.emprestimoService.ultimos(4);
-  }
-
-  get cards() {
-    return [
-      { titulo: 'Total de livros', valor: this.totalLivros },
-      { titulo: 'Livros emprestados', valor: this.emprestados },
-      { titulo: 'Devoluções pendentes', valor: this.pendentes },
-      { titulo: 'Utilizadores ativos', valor: this.usuariosAtivos }
-    ];
+  ngOnInit(): void {
+    forkJoin({
+      totalLivros: this.livroService.totalExemplares(),
+      emprestados: this.emprestimoService.emprestados(),
+      pendentes: this.emprestimoService.devolucoesPendentes(),
+      usuarios: this.auth.totalUsuarios(),
+      ultimos: this.emprestimoService.ultimos(4)
+    }).subscribe({
+      next: r => {
+        this.cards = [
+          { titulo: 'Total de livros', valor: r.totalLivros },
+          { titulo: 'Livros emprestados', valor: r.emprestados },
+          { titulo: 'Devoluções pendentes', valor: r.pendentes },
+          { titulo: 'Utilizadores ativos', valor: r.usuarios }
+        ];
+        this.ultimos = r.ultimos;
+        this.carregando = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.erroApi = true;
+        this.carregando = false;
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

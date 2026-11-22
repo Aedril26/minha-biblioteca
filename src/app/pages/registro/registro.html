@@ -17,30 +17,36 @@
     <span class="circulo c1"></span><span class="circulo c2"></span>
     <span class="circulo c3"></span><span class="circulo c4"></span>
 
-    <form class="auth-card auth-card-alto" (ngSubmit)="criarConta()" #f="ngForm">
+    <form class="auth-card auth-card-alto" [formGroup]="form" (ngSubmit)="criarConta()" novalidate>
       <h2>Criar conta</h2>
 
       <div class="campo-auth">
         <label for="nome">Nome Completo</label>
-        <input id="nome" name="nome" type="text" placeholder="Seu nome completo" [(ngModel)]="nome" required />
+        <input id="nome" type="text" formControlName="nome" placeholder="Seu nome completo" />
+        <small class="erro-campo" *ngIf="msg('nome') as m">{{ m }}</small>
       </div>
       <div class="campo-auth">
         <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="seu.email@exemplo.com" [(ngModel)]="email" required />
+        <input id="email" type="email" formControlName="email" placeholder="seu.email@exemplo.com" />
+        <small class="erro-campo" *ngIf="msg('email') as m">{{ m }}</small>
       </div>
       <div class="campo-auth">
         <label for="senha">Senha</label>
-        <input id="senha" name="senha" type="password" placeholder="Crie uma senha" [(ngModel)]="senha" required minlength="6" />
+        <input id="senha" type="password" formControlName="senha" placeholder="Crie uma senha (mín. 6 caracteres)" />
+        <small class="erro-campo" *ngIf="msg('senha') as m">{{ m }}</small>
       </div>
       <div class="campo-auth">
         <label for="confirmar">Confirmar senha</label>
-        <input id="confirmar" name="confirmar" type="password" placeholder="Repita a senha" [(ngModel)]="confirmar" required />
+        <input id="confirmar" type="password" formControlName="confirmar" placeholder="Repita a senha" />
+        <small class="erro-campo" *ngIf="msg('confirmar') as m">{{ m }}</small>
       </div>
 
       <p class="erro" *ngIf="erro">{{ erro }}</p>
 
       <div class="auth-acoes auth-acoes-centro">
-        <button type="submit" class="btn btn-caramelo" [disabled]="f.invalid">Criar conta</button>
+        <button type="submit" class="btn btn-caramelo" [disabled]="carregando">
+          {{ carregando ? 'Criando...' : 'Criar conta' }}
+        </button>
       </div>
       <p class="dica"><a routerLink="/login">Já tenho conta</a></p>
     </form>

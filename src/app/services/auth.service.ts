@@ -1,34 +1,52 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, map, of, switchMap, tap } from 'rxjs';
+import { API_URL } from '../api.config';
 import { Usuario } from '../models/usuario.model';
-import { USUARIOS_MOCK } from '../mocks/usuarios.mock';
+
+export interface ResultadoRegistro {
+  ok: boolean;
+  erro?: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private usuarios: Usuario[] = USUARIOS_MOCK.map(u => ({ ...u }));
+  private url = `${API_URL}/usuarios`;
   usuarioLogado?: Usuario;
 
-  login(email: string, senha: string): boolean {
-    const u = this.usuarios.find(
-      x => x.email.toLowerCase() === email.trim().toLowerCase() && x.senha === senha
+  constructor(private http: HttpClient) {}
+
+  login(email: string, senha: string): Observable<boolean> {
+    const params = new HttpParams()
+      .set('email', email.trim().toLowerCase())
+      .set('senha', senha);
+    return this.http.get<Usuario[]>(this.url, { params }).pipe(
+      map(lista => lista[0]),
+      tap(usuario => (this.usuarioLogado = usuario)),
+      map(usuario => !!usuario)
     );
-    this.usuarioLogado = u;
-    return !!u;
   }
 
   logout(): void {
     this.usuarioLogado = undefined;
   }
 
-  registrar(nome: string, email: string, senha: string): { ok: boolean; erro?: string } {
-    if (this.usuarios.some(u => u.email.toLowerCase() === email.trim().toLowerCase())) {
-      return { ok: false, erro: 'Já existe uma conta com esse e-mail.' };
-    }
-    const id = Math.max(0, ...this.usuarios.map(u => u.id)) + 1;
-    this.usuarios.push({ id, nome: nome.trim(), email: email.trim(), senha });
-    return { ok: true };
+  registrar(nome: string, email: string, senha: string): Observable<ResultadoRegistro> {
+    const emailNormalizado = email.trim().toLowerCase();
+    const params = new HttpParams().set('email', emailNormalizado);
+    return this.http.get<Usuario[]>(this.url, { params }).pipe(
+      switchMap(existentes => {
+        if (existentes.length > 0) {
+          return of<ResultadoRegistro>({ ok: false, erro: 'Já existe uma conta com esse e-mail.' });
+        }
+        return this.http
+          .post<Usuario>(this.url, { nome: nome.trim(), email: emailNormalizado, senha })
+          .pipe(map((): ResultadoRegistro => ({ ok: true })));
+      })
+    );
   }
 
-  totalUsuarios(): number {
-    return this.usuarios.length;
+  totalUsuarios(): Observable<number> {
+    return this.http.get<Usuario[]>(this.url).pipe(map(lista => lista.length));
   }
 }

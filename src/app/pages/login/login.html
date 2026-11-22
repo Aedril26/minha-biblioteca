@@ -17,25 +17,27 @@
     <span class="circulo c1"></span><span class="circulo c2"></span>
     <span class="circulo c3"></span><span class="circulo c4"></span>
 
-    <form class="auth-card" (ngSubmit)="entrar()" #f="ngForm">
+    <form class="auth-card" [formGroup]="form" (ngSubmit)="entrar()" novalidate>
       <h2>Login</h2>
 
       <div class="campo-auth">
         <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="seu.email@exemplo.com"
-               [(ngModel)]="email" required />
+        <input id="email" type="email" formControlName="email" placeholder="seu.email@exemplo.com" />
+        <small class="erro-campo" *ngIf="msg('email') as m">{{ m }}</small>
       </div>
 
       <div class="campo-auth">
         <label for="senha">Senha</label>
-        <input id="senha" name="senha" type="password" placeholder="Sua senha"
-               [(ngModel)]="senha" required />
+        <input id="senha" type="password" formControlName="senha" placeholder="Sua senha" />
+        <small class="erro-campo" *ngIf="msg('senha') as m">{{ m }}</small>
       </div>
 
       <p class="erro" *ngIf="erro">{{ erro }}</p>
 
       <div class="auth-acoes">
-        <button type="submit" class="btn btn-caramelo" [disabled]="f.invalid">Entrar</button>
+        <button type="submit" class="btn btn-caramelo" [disabled]="carregando">
+          {{ carregando ? 'Entrando...' : 'Entrar' }}
+        </button>
         <button type="button" class="btn btn-caramelo" routerLink="/registro">Criar conta</button>
       </div>
       <p class="dica">Teste: admin&#64;biblioteca.com / 123456</p>
