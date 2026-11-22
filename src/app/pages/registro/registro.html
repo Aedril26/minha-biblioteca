@@ -1,0 +1,48 @@
+<div class="auth">
+  <section class="auth-lado">
+    <div class="auth-marca">
+      <svg class="auth-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" />
+        <path d="M2 6h4" /><path d="M2 10h4" /><path d="M2 14h4" /><path d="M2 18h4" />
+        <path d="M18.4 2.6a2.17 2.17 0 0 1 3 3L16 11l-4 1 1-4Z" />
+      </svg>
+      <div>
+        <h1>Junte-se<br />à nossa<br />biblioteca</h1>
+        <hr class="auth-linha" />
+      </div>
+    </div>
+  </section>
+
+  <section class="auth-form">
+    <span class="circulo c1"></span><span class="circulo c2"></span>
+    <span class="circulo c3"></span><span class="circulo c4"></span>
+
+    <form class="auth-card auth-card-alto" (ngSubmit)="criarConta()" #f="ngForm">
+      <h2>Criar conta</h2>
+
+      <div class="campo-auth">
+        <label for="nome">Nome Completo</label>
+        <input id="nome" name="nome" type="text" placeholder="Seu nome completo" [(ngModel)]="nome" required />
+      </div>
+      <div class="campo-auth">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="seu.email@exemplo.com" [(ngModel)]="email" required />
+      </div>
+      <div class="campo-auth">
+        <label for="senha">Senha</label>
+        <input id="senha" name="senha" type="password" placeholder="Crie uma senha" [(ngModel)]="senha" required minlength="6" />
+      </div>
+      <div class="campo-auth">
+        <label for="confirmar">Confirmar senha</label>
+        <input id="confirmar" name="confirmar" type="password" placeholder="Repita a senha" [(ngModel)]="confirmar" required />
+      </div>
+
+      <p class="erro" *ngIf="erro">{{ erro }}</p>
+
+      <div class="auth-acoes auth-acoes-centro">
+        <button type="submit" class="btn btn-caramelo" [disabled]="f.invalid">Criar conta</button>
+      </div>
+      <p class="dica"><a routerLink="/login">Já tenho conta</a></p>
+    </form>
+  </section>
+</div>
