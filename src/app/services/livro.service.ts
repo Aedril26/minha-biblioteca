@@ -1,73 +1,69 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import { API_URL } from '../api.config';
 import { Livro } from '../models/livro.model';
-import { LIVROS_MOCK } from '../mocks/livros.mock';
 
 @Injectable({ providedIn: 'root' })
 export class LivroService {
-  private livros: Livro[] = LIVROS_MOCK.map(l => ({ ...l }));
+  private url = `${API_URL}/livros`;
 
-  listar(): Livro[] {
-    return [...this.livros];
+  constructor(private http: HttpClient) {}
+
+  listar(): Observable<Livro[]> {
+    return this.http.get<Livro[]>(this.url);
   }
 
-  buscarPorId(id: number): Livro | undefined {
-    return this.livros.find(l => l.id === id);
+  buscarPorId(id: number): Observable<Livro> {
+    return this.http.get<Livro>(`${this.url}/${id}`);
   }
 
   /** status: '' (todos) | 'disponivel' | 'indisponivel' */
-  pesquisar(termo = '', categoria = '', status = ''): Livro[] {
-    const t = termo.trim().toLowerCase();
-    return this.livros.filter(l => {
-      const bateTermo = !t ||
-        l.titulo.toLowerCase().includes(t) ||
-        l.autor.toLowerCase().includes(t) ||
-        l.isbn.toLowerCase().includes(t);
-      const bateCategoria = !categoria || l.categoria === categoria;
-      const bateStatus = !status ||
-        (status === 'disponivel' ? l.exemplares > 0 : l.exemplares === 0);
-      return bateTermo && bateCategoria && bateStatus;
-    });
+  pesquisar(termo = '', categoria = '', status = ''): Observable<Livro[]> {
+    let params = new HttpParams();
+    if (termo.trim()) params = params.set('q', termo.trim());
+    if (categoria) params = params.set('categoria', categoria);
+    if (status === 'disponivel') params = params.set('exemplares_gte', '1');
+    if (status === 'indisponivel') params = params.set('exemplares', '0');
+    return this.http.get<Livro[]>(this.url, { params });
   }
 
-  cadastrar(dados: Omit<Livro, 'id'>): Livro {
-    const novo: Livro = { ...dados, id: this.proximoId() };
-    this.livros.push(novo);
-    return novo;
+  cadastrar(dados: Omit<Livro, 'id'>): Observable<Livro> {
+    return this.http.post<Livro>(this.url, dados);
   }
 
-  editar(livro: Livro): boolean {
-    const i = this.livros.findIndex(l => l.id === livro.id);
-    if (i === -1) return false;
-    this.livros[i] = { ...livro };
-    return true;
+  editar(livro: Livro): Observable<Livro> {
+    return this.http.put<Livro>(`${this.url}/${livro.id}`, livro);
   }
 
-  excluir(id: number): boolean {
-    const antes = this.livros.length;
-    this.livros = this.livros.filter(l => l.id !== id);
-    return this.livros.length < antes;
+  excluir(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${id}`);
   }
 
-  categorias(): string[] {
-    return [...new Set(this.livros.map(l => l.categoria))].sort();
+  categorias(): Observable<string[]> {
+    return this.listar().pipe(
+      map(livros => [...new Set(livros.map(l => l.categoria))].sort())
+    );
   }
 
-  totalExemplares(): number {
-    return this.livros.reduce((soma, l) => soma + l.exemplares, 0);
+  totalExemplares(): Observable<number> {
+    return this.listar().pipe(
+      map(livros => livros.reduce((soma, l) => soma + l.exemplares, 0))
+    );
   }
 
-  distribuicaoPorCategoria(limite = 3): { categoria: string; percentual: number }[] {
-    const total = this.livros.length;
-    if (!total) return [];
-    const contagem = new Map<string, number>();
-    this.livros.forEach(l => contagem.set(l.categoria, (contagem.get(l.categoria) ?? 0) + 1));
-    return [...contagem.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, limite)
-      .map(([categoria, qtd]) => ({ categoria, percentual: Math.round((qtd / total) * 100) }));
-  }
-
-  private proximoId(): number {
-    return this.livros.length ? Math.max(...this.livros.map(l => l.id)) + 1 : 1;
+  distribuicaoPorCategoria(limite = 3): Observable<{ categoria: string; percentual: number }[]> {
+    return this.listar().pipe(
+      map(livros => {
+        const total = livros.length;
+        if (!total) return [];
+        const contagem = new Map<string, number>();
+        livros.forEach(l => contagem.set(l.categoria, (contagem.get(l.categoria) ?? 0) + 1));
+        return [...contagem.entries()]
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, limite)
+          .map(([categoria, qtd]) => ({ categoria, percentual: Math.round((qtd / total) * 100) }));
+      })
+    );
   }
 }
