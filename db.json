@@ -7,7 +7,7 @@
       "categoria": "Fantasia",
       "isbn": "978-85-7657-134-7",
       "anoPublicacao": 2007,
-      "exemplares": 4,
+      "exemplares": 2,
       "sinopse": "A história de Kvothe, um jovem músico e arcanista que se torna uma lenda, contada por ele mesmo.",
       "capaUrl": ""
     },
@@ -18,7 +18,7 @@
       "categoria": "Ficção Científica",
       "isbn": "978-85-7657-250-4",
       "anoPublicacao": 1965,
-      "exemplares": 3,
+      "exemplares": 2,
       "sinopse": "No deserto do planeta Arrakis, a família Atreides luta pelo controle da especiaria mais valiosa do universo.",
       "capaUrl": ""
     },
@@ -62,7 +62,7 @@
       "categoria": "Romance",
       "isbn": "978-85-220-0156-0",
       "anoPublicacao": 1943,
-      "exemplares": 6,
+      "exemplares": 5,
       "sinopse": "Um piloto perdido no deserto encontra um pequeno príncipe vindo de outro planeta.",
       "capaUrl": ""
     },
@@ -73,7 +73,7 @@
       "categoria": "Romance",
       "isbn": "978-85-359-0277-4",
       "anoPublicacao": 1899,
-      "exemplares": 0,
+      "exemplares": 7,
       "sinopse": "Bentinho relembra sua vida e a dúvida eterna sobre a fidelidade de Capitu.",
       "capaUrl": ""
     },
@@ -187,6 +187,42 @@
       "dataEmprestimo": "2026-09-08",
       "dataDevolucao": "2026-09-22",
       "status": "DEVOLVIDO"
+    },
+    {
+      "livroId": 1,
+      "livroTitulo": "O Nome do Vento",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 9
+    },
+    {
+      "livroId": 6,
+      "livroTitulo": "O Pequeno Príncipe",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 10
+    },
+    {
+      "livroId": 1,
+      "livroTitulo": "O Nome do Vento",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 11
+    },
+    {
+      "livroId": 2,
+      "livroTitulo": "Duna",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 12
     }
   ],
   "volumeMensal": [
