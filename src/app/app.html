@@ -4,6 +4,10 @@
       <a class="sidebar-marca" routerLink="/dashboard">Minha biblioteca</a>
       <nav class="sidebar-nav">
         <a routerLink="/dashboard" routerLinkActive="ativo">Dashboard</a>
+        <a routerLink="/livros" routerLinkActive="ativo" [routerLinkActiveOptions]="{ exact: true }">Listagem de livros</a>
+        <a [routerLink]="['/livros', 1]" routerLinkActive="ativo" [routerLinkActiveOptions]="{ exact: true }">Detalhe de livros</a>
+        <a routerLink="/livros/novo" routerLinkActive="ativo">Cadastro e edição</a>
+        <a routerLink="/relatorios" routerLinkActive="ativo">Relatório</a>
       </nav>
       <button type="button" class="sidebar-sair" (click)="sair()">Sair</button>
     </aside>
