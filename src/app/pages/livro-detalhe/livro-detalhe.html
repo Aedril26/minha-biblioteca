@@ -1,0 +1,58 @@
+<p class="breadcrumb">
+  <a routerLink="/livros">Listagem de livros</a> &gt; Detalhes do livro
+</p>
+
+<p class="vazio" *ngIf="carregando">Carregando...</p>
+
+<ng-container *ngIf="!carregando">
+  <section class="card detalhe" *ngIf="livro; else naoEncontrado">
+    <aside class="detalhe-lateral">
+      <div class="capa capa-grande">
+        <img *ngIf="livro.capaUrl; else semCapa" [src]="livro.capaUrl" [alt]="'Capa de ' + livro.titulo" />
+        <ng-template #semCapa><span class="capa-inicial">{{ livro.titulo.charAt(0) }}</span></ng-template>
+      </div>
+      <span class="selo selo-solto" [class.selo-indisp]="livro.exemplares === 0">
+        {{ livro.exemplares > 0 ? 'Disponível' : 'Indisponível' }}
+      </span>
+      <ul class="detalhe-meta">
+        <li>ISBN: {{ livro.isbn }}</li>
+        <li>Ano de publicação: {{ livro.anoPublicacao }}</li>
+        <li>Exemplares: {{ livro.exemplares | number: '2.0-0' }}</li>
+      </ul>
+    </aside>
+
+    <div class="detalhe-corpo">
+      <div class="detalhe-topo">
+        <div>
+          <h1 class="detalhe-titulo">{{ livro.titulo }}</h1>
+          <p class="detalhe-autor">{{ livro.autor }}</p>
+        </div>
+        <span class="tag">{{ livro.categoria }}</span>
+      </div>
+      <hr class="linha" />
+      <h2 class="detalhe-sinopse-titulo">Sinopse:</h2>
+      <p class="detalhe-sinopse">{{ livro.sinopse }}</p>
+
+      <p class="aviso" *ngIf="mensagem">{{ mensagem }}</p>
+
+      <div class="detalhe-acoes">
+        <button type="button" class="btn btn-caramelo" [disabled]="livro.exemplares === 0" (click)="solicitarEmprestimo()">
+          Solicitar empréstimo
+        </button>
+        <a class="btn btn-verde" [routerLink]="['/livros', livro.id, 'editar']">Editar livro</a>
+        <button type="button" class="btn btn-perigo" (click)="excluir()">Excluir</button>
+        <a class="btn btn-contorno" routerLink="/livros">&lt; Voltar listagem</a>
+      </div>
+    </div>
+  </section>
+</ng-container>
+
+<ng-template #naoEncontrado>
+  <section class="card painel">
+    <p class="alerta" *ngIf="erroApi">
+      Não foi possível carregar o livro. Verifique se a API está rodando (<code>npm run api</code>).
+    </p>
+    <p class="vazio" *ngIf="!erroApi">Livro não encontrado.</p>
+    <a class="btn btn-contorno" routerLink="/livros">&lt; Voltar listagem</a>
+  </section>
+</ng-template>
