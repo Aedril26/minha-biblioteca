@@ -1,0 +1,266 @@
+{
+  "livros": [
+    {
+      "id": 1,
+      "titulo": "O Nome do Vento",
+      "autor": "Patrick Rothfuss",
+      "categoria": "Fantasia",
+      "isbn": "978-85-7657-134-7",
+      "anoPublicacao": 2007,
+      "exemplares": 2,
+      "sinopse": "A história de Kvothe, um jovem músico e arcanista que se torna uma lenda, contada por ele mesmo.",
+      "capaUrl": ""
+    },
+    {
+      "id": 2,
+      "titulo": "Duna",
+      "autor": "Frank Herbert",
+      "categoria": "Ficção Científica",
+      "isbn": "978-85-7657-250-4",
+      "anoPublicacao": 1965,
+      "exemplares": 2,
+      "sinopse": "No deserto do planeta Arrakis, a família Atreides luta pelo controle da especiaria mais valiosa do universo.",
+      "capaUrl": ""
+    },
+    {
+      "id": 3,
+      "titulo": "Fundação",
+      "autor": "Isaac Asimov",
+      "categoria": "Ficção Científica",
+      "isbn": "978-85-7657-301-3",
+      "anoPublicacao": 1951,
+      "exemplares": 0,
+      "sinopse": "Hari Seldon cria a psico-história para prever o futuro e tentar salvar a civilização da queda do Império.",
+      "capaUrl": ""
+    },
+    {
+      "id": 4,
+      "titulo": "Sapiens",
+      "autor": "Yuval Noah Harari",
+      "categoria": "História & Biografia",
+      "isbn": "978-85-254-3149-8",
+      "anoPublicacao": 2011,
+      "exemplares": 2,
+      "sinopse": "Uma breve história da humanidade, da Idade da Pedra até a era digital.",
+      "capaUrl": ""
+    },
+    {
+      "id": 5,
+      "titulo": "Clean Code",
+      "autor": "Robert C. Martin",
+      "categoria": "Tecnologia",
+      "isbn": "978-85-7608-047-8",
+      "anoPublicacao": 2008,
+      "exemplares": 5,
+      "sinopse": "Princípios e boas práticas para escrever código limpo, legível e fácil de manter.",
+      "capaUrl": ""
+    },
+    {
+      "id": 6,
+      "titulo": "O Pequeno Príncipe",
+      "autor": "Antoine de Saint-Exupéry",
+      "categoria": "Romance",
+      "isbn": "978-85-220-0156-0",
+      "anoPublicacao": 1943,
+      "exemplares": 5,
+      "sinopse": "Um piloto perdido no deserto encontra um pequeno príncipe vindo de outro planeta.",
+      "capaUrl": ""
+    },
+    {
+      "id": 7,
+      "titulo": "Dom Casmurro",
+      "autor": "Machado de Assis",
+      "categoria": "Romance",
+      "isbn": "978-85-359-0277-4",
+      "anoPublicacao": 1899,
+      "exemplares": 7,
+      "sinopse": "Bentinho relembra sua vida e a dúvida eterna sobre a fidelidade de Capitu.",
+      "capaUrl": ""
+    },
+    {
+      "id": 8,
+      "titulo": "Steve Jobs",
+      "autor": "Walter Isaacson",
+      "categoria": "História & Biografia",
+      "isbn": "978-85-359-1999-4",
+      "anoPublicacao": 2011,
+      "exemplares": 2,
+      "sinopse": "A biografia autorizada do cofundador da Apple, baseada em dezenas de entrevistas.",
+      "capaUrl": ""
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "Administrador",
+      "email": "admin@biblioteca.com",
+      "senha": "123456"
+    },
+    {
+      "id": 2,
+      "nome": "Ana Silva",
+      "email": "ana@exemplo.com",
+      "senha": "123456"
+    },
+    {
+      "id": 3,
+      "nome": "Carlos Souza",
+      "email": "carlos@exemplo.com",
+      "senha": "123456"
+    },
+    {
+      "nome": "Carlos Eduardo",
+      "email": "carlos.eduardo@hotmail.com",
+      "senha": "123456",
+      "id": 4
+    }
+  ],
+  "emprestimos": [
+    {
+      "id": 1,
+      "livroId": 6,
+      "livroTitulo": "O Pequeno Príncipe",
+      "usuarioNome": "Ana Silva",
+      "dataEmprestimo": "2026-11-02",
+      "dataDevolucao": "2026-11-12",
+      "status": "DEVOLVIDO"
+    },
+    {
+      "id": 2,
+      "livroId": 1,
+      "livroTitulo": "O Nome do Vento",
+      "usuarioNome": "Carlos Souza",
+      "dataEmprestimo": "2026-11-16",
+      "dataDevolucao": "2026-11-30",
+      "status": "EM ANDAMENTO"
+    },
+    {
+      "id": 3,
+      "livroId": 2,
+      "livroTitulo": "Duna",
+      "usuarioNome": "Marina Lopes",
+      "dataEmprestimo": "2026-10-28",
+      "dataDevolucao": "2026-11-11",
+      "status": "ATRASADO"
+    },
+    {
+      "id": 4,
+      "livroId": 5,
+      "livroTitulo": "Clean Code",
+      "usuarioNome": "João Pereira",
+      "dataEmprestimo": "2026-11-18",
+      "dataDevolucao": "2026-12-02",
+      "status": "EM ANDAMENTO"
+    },
+    {
+      "id": 5,
+      "livroId": 7,
+      "livroTitulo": "Dom Casmurro",
+      "usuarioNome": "Ana Silva",
+      "dataEmprestimo": "2026-10-08",
+      "dataDevolucao": "2026-10-22",
+      "status": "ATRASADO"
+    },
+    {
+      "id": 6,
+      "livroId": 4,
+      "livroTitulo": "Sapiens",
+      "usuarioNome": "Pedro Alves",
+      "dataEmprestimo": "2026-11-07",
+      "dataDevolucao": "2026-11-21",
+      "status": "DEVOLVIDO"
+    },
+    {
+      "id": 7,
+      "livroId": 3,
+      "livroTitulo": "Fundação",
+      "usuarioNome": "Lucas Rocha",
+      "dataEmprestimo": "2026-11-20",
+      "dataDevolucao": "2026-12-04",
+      "status": "EM ANDAMENTO"
+    },
+    {
+      "id": 8,
+      "livroId": 8,
+      "livroTitulo": "Steve Jobs",
+      "usuarioNome": "Marina Lopes",
+      "dataEmprestimo": "2026-09-08",
+      "dataDevolucao": "2026-09-22",
+      "status": "DEVOLVIDO"
+    },
+    {
+      "livroId": 1,
+      "livroTitulo": "O Nome do Vento",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 9
+    },
+    {
+      "livroId": 6,
+      "livroTitulo": "O Pequeno Príncipe",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 10
+    },
+    {
+      "livroId": 1,
+      "livroTitulo": "O Nome do Vento",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 11
+    },
+    {
+      "livroId": 2,
+      "livroTitulo": "Duna",
+      "usuarioNome": "Carlos Eduardo",
+      "dataEmprestimo": "2026-11-23",
+      "dataDevolucao": "2026-12-07",
+      "status": "EM ANDAMENTO",
+      "id": 12
+    }
+  ],
+  "volumeMensal": [
+    {
+      "id": 1,
+      "mes": "JAN",
+      "emprestimos": 120,
+      "devolucoes": 90
+    },
+    {
+      "id": 2,
+      "mes": "FEV",
+      "emprestimos": 95,
+      "devolucoes": 100
+    },
+    {
+      "id": 3,
+      "mes": "MAR",
+      "emprestimos": 140,
+      "devolucoes": 110
+    },
+    {
+      "id": 4,
+      "mes": "ABR",
+      "emprestimos": 110,
+      "devolucoes": 105
+    },
+    {
+      "id": 5,
+      "mes": "MAI",
+      "emprestimos": 130,
+      "devolucoes": 125
+    },
+    {
+      "id": 6,
+      "mes": "JUN",
+      "emprestimos": 150,
+      "devolucoes": 120
+    }
+  ]
+}

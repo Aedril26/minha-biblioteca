@@ -1,0 +1,73 @@
+<header class="cabecalho">
+  <div>
+    <h1 class="titulo-pagina">{{ editando ? 'Editar Livro' : 'Cadastro/Editar Livro' }}</h1>
+    <p class="subtitulo">Preencha as informações abaixo para adicionar um novo título ou atualizar o acervo.</p>
+  </div>
+</header>
+
+<form class="card form-livro" [formGroup]="form" (ngSubmit)="salvar()" novalidate>
+  <label class="upload" for="capa">
+    <img *ngIf="capaUrl; else uploadVazio" [src]="capaUrl" alt="Prévia da capa" />
+    <ng-template #uploadVazio>
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 16V4" /><path d="m7 9 5-5 5 5" /><path d="M20 16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3" />
+      </svg>
+      <span>Clique para escolher a imagem da capa (até 1 MB)</span>
+    </ng-template>
+    <input id="capa" type="file" accept="image/*" (change)="selecionarCapa($event)" hidden />
+  </label>
+
+  <div class="form-campos">
+    <div class="campo">
+      <label for="titulo">Título do Livro</label>
+      <input id="titulo" type="text" formControlName="titulo" placeholder="Digite o título do livro" />
+      <small class="erro-campo" *ngIf="msg('titulo') as m">{{ m }}</small>
+    </div>
+
+    <div class="linha-2">
+      <div class="campo">
+        <label for="autor">Autor</label>
+        <input id="autor" type="text" formControlName="autor" placeholder="Digite o nome do autor" />
+        <small class="erro-campo" *ngIf="msg('autor') as m">{{ m }}</small>
+      </div>
+      <div class="campo">
+        <label for="categoria">Categoria</label>
+        <input id="categoria" type="text" formControlName="categoria" placeholder="Digite a categoria do livro" />
+        <small class="erro-campo" *ngIf="msg('categoria') as m">{{ m }}</small>
+      </div>
+    </div>
+
+    <div class="linha-3">
+      <div class="campo">
+        <label for="isbn">ISBN</label>
+        <input id="isbn" type="text" formControlName="isbn" placeholder="978-00-0000-000-0" />
+        <small class="erro-campo" *ngIf="msg('isbn') as m">{{ m }}</small>
+      </div>
+      <div class="campo">
+        <label for="ano">Ano de Publicação</label>
+        <input id="ano" type="number" formControlName="anoPublicacao" placeholder="AAAA" />
+        <small class="erro-campo" *ngIf="msg('anoPublicacao') as m">{{ m }}</small>
+      </div>
+      <div class="campo">
+        <label for="exemplares">Exemplares</label>
+        <input id="exemplares" type="number" formControlName="exemplares" placeholder="0" />
+        <small class="erro-campo" *ngIf="msg('exemplares') as m">{{ m }}</small>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="sinopse">Sinopse</label>
+      <textarea id="sinopse" rows="5" formControlName="sinopse" placeholder="Sinopse/Descrição (mín. 10 caracteres)"></textarea>
+      <small class="erro-campo" *ngIf="msg('sinopse') as m">{{ m }}</small>
+    </div>
+
+    <p class="alerta" *ngIf="aviso">{{ aviso }}</p>
+
+    <div class="form-acoes">
+      <button type="submit" class="btn btn-caramelo" [disabled]="salvando">
+        {{ salvando ? 'Salvando...' : 'Salvar livro' }}
+      </button>
+      <button type="button" class="btn btn-contorno" (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+</form>

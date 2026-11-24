@@ -1,0 +1,47 @@
+<header class="cabecalho">
+  <div>
+    <h1 class="titulo-pagina">Listagem de livros</h1>
+    <p class="subtitulo">Explore, filtre e gira todos os títulos disponíveis no acervo.</p>
+  </div>
+  <a class="btn btn-caramelo" routerLink="/livros/novo">+ Adicionar novo livro</a>
+</header>
+
+<form class="filtros" [formGroup]="filtros">
+  <input class="filtro filtro-busca" type="search" formControlName="termo"
+         placeholder="Pesquisar por título, autor ou ISBN..." />
+
+  <select class="filtro" formControlName="categoria">
+    <option value="">Categorias : todas</option>
+    <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
+  </select>
+
+  <select class="filtro" formControlName="status">
+    <option value="">Status : todos</option>
+    <option value="disponivel">Disponível</option>
+    <option value="indisponivel">Indisponível</option>
+  </select>
+</form>
+
+<p class="alerta" *ngIf="erroApi">
+  Não foi possível carregar os livros. Verifique se a API está rodando (<code>npm run api</code>).
+</p>
+<p class="vazio" *ngIf="carregando">Carregando...</p>
+
+<section class="grade-livros" *ngIf="!carregando">
+  <article class="livro-card" *ngFor="let l of livros">
+    <div class="capa">
+      <img *ngIf="l.capaUrl; else semCapa" [src]="l.capaUrl" [alt]="'Capa de ' + l.titulo" />
+      <ng-template #semCapa><span class="capa-inicial">{{ l.titulo.charAt(0) }}</span></ng-template>
+      <span class="selo" [class.selo-indisp]="l.exemplares === 0">
+        {{ l.exemplares > 0 ? 'Disponível' : 'Indisponível' }}
+      </span>
+    </div>
+    <h3>{{ l.titulo }}</h3>
+    <p class="livro-autor">Autor: {{ l.autor }}</p>
+    <a class="btn btn-verde btn-pequeno" [routerLink]="['/livros', l.id]">Ver detalhes</a>
+  </article>
+</section>
+
+<p class="vazio" *ngIf="!carregando && !erroApi && livros.length === 0">
+  Nenhum livro encontrado com esses filtros.
+</p>
