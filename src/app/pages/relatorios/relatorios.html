@@ -1,0 +1,76 @@
+<header class="cabecalho">
+  <div>
+    <h1 class="titulo-pagina">Relatório e Análises</h1>
+    <p class="subtitulo">Acompanhe a movimentação de livros, perfil de leitura e métricas de devolução</p>
+  </div>
+  <div class="cabecalho-acoes" [formGroup]="filtros">
+    <select class="filtro" formControlName="periodo">
+      <option [ngValue]="7">Últimos 7 dias</option>
+      <option [ngValue]="30">Últimos 30 dias</option>
+      <option [ngValue]="90">Últimos 90 dias</option>
+      <option [ngValue]="0">Todo o período</option>
+    </select>
+  </div>
+</header>
+
+<p class="alerta" *ngIf="erroApi">
+  Não foi possível carregar os dados. Verifique se a API está rodando (<code>npm run api</code>).
+</p>
+
+<section class="graficos">
+  <article class="card grafico-barras">
+    <h2 class="painel-titulo">Volume de empréstimos e devoluções</h2>
+    <div class="legenda">
+      <span><i class="dot dot-verde"></i> Empréstimos</span>
+      <span><i class="dot dot-caramelo"></i> Devoluções</span>
+    </div>
+    <div class="barras">
+      <div class="barra-grupo" *ngFor="let v of volume">
+        <div class="barra-par">
+          <span class="barra barra-verde" [style.height.px]="altura(v.emprestimos)" [title]="v.emprestimos + ' empréstimos'"></span>
+          <span class="barra barra-caramelo" [style.height.px]="altura(v.devolucoes)" [title]="v.devolucoes + ' devoluções'"></span>
+        </div>
+        <small>{{ v.mes }}</small>
+      </div>
+    </div>
+  </article>
+
+  <article class="card grafico-pizza">
+    <h2 class="painel-titulo">Categorias mais lidas</h2>
+    <div class="pizza" [style.background]="gradiente"><span></span></div>
+    <ul class="pizza-legenda">
+      <li *ngFor="let c of categorias; let i = index">
+        <span><i class="dot" [style.background]="cores[i]"></i> {{ c.categoria }}</span>
+        <strong>{{ c.percentual }}%</strong>
+      </li>
+    </ul>
+  </article>
+</section>
+
+<section class="card painel tabela-painel">
+  <div class="tabela-topo" [formGroup]="filtros">
+    <h2 class="painel-titulo">Histórico Detalhado de Movimentações</h2>
+    <input class="filtro" type="search" formControlName="termo" placeholder="Buscar por ID, livro ou usuário" />
+  </div>
+
+  <div class="tabela-rolagem">
+    <table class="tabela">
+      <thead>
+        <tr>
+          <th>ID</th><th>Livro</th><th>Utilizador</th><th>Data de empréstimo</th><th>Devolução</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of movimentacoes">
+          <td>{{ m.id | number: '2.0-0' }}</td>
+          <td>{{ m.livroTitulo }}</td>
+          <td>{{ m.usuarioNome }}</td>
+          <td>{{ m.dataEmprestimo | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ m.dataDevolucao | date: 'dd/MM/yyyy' }}</td>
+          <td><span class="status" [ngClass]="classeStatus(m.status)">{{ m.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="vazio" *ngIf="movimentacoes.length === 0">Nenhuma movimentação encontrada.</p>
+</section>
